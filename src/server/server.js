@@ -46,3 +46,32 @@ function getAll(req, res) {
   console.log("GET request received");
   res.send(projectData);
 }
+
+// Helper function to generate url for Geonames search request
+const geonamesURL = "http://api.geonames.org/searchJSON?q="
+const username = process.env.GEONAMES_USER
+const requestUrl = function (city, country) {
+  const newUrl = geonamesURL + city + "&maxRows=10" + "&username=" + username
+  return newUrl
+}
+
+// Fetch location data from Geonames API
+app.post("/location", getLocation)
+
+async function getLocation(req, res) {
+  console.log("getting location data...")
+  const location = await fetch (requestUrl("portland, maine"))
+  const geonamesData = await location.json()
+  try {
+    // console.log(geonamesData)
+    projectData.lat = geonamesData.geonames[0].lat
+    projectData.long = geonamesData.geonames[0].lng
+    projectData.city = geonamesData.geonames[0].name
+    projectData.country = geonamesData.geonames[0].countryName
+  } catch (error) {
+    console.log("error ", error)
+  }
+  console.log(projectData)
+}
+
+getLocation()
