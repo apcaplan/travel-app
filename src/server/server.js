@@ -20,16 +20,23 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Initialize main project folder
-app.use(express.static("website"));
+app.use(express.static("dist"));
 
 // Setup server
 const port = 8000;
 
-const server = app.listen(port, listening);
+// designates what port the app will listen to for incoming requests
+app.listen(8080, function () {
+  console.log(`server listening on port ${port}!`);
+});
 
-function listening() {
-  console.log(`server running on localhost: ${port}`);
-}
+app.get("/", function (req, res) {
+  // res.sendFile('dist/index.html')
+  res.sendFile(path.resolve("dist/index.html"));
+});
+
+// load key variables
+dotenv.config();
 
 // Define route methods
 // GET
