@@ -23,10 +23,10 @@ app.use(cors());
 app.use(express.static("dist"));
 
 // Setup server
-const port = 8000;
+const port = 8081;
 
 // designates what port the app will listen to for incoming requests
-app.listen(8080, function () {
+app.listen(8081, function () {
   console.log(`server listening on port ${port}!`);
 });
 
@@ -60,7 +60,8 @@ app.post("/location", getLocation)
 
 async function getLocation(req, res) {
   console.log("getting location data...")
-  const location = await fetch (requestUrl("portland, maine"))
+  console.log("city: ", req.body.city)
+  const location = await fetch (requestUrl(req.body.city))
   const geonamesData = await location.json()
   try {
     // console.log(geonamesData)
@@ -73,5 +74,3 @@ async function getLocation(req, res) {
   }
   console.log(projectData)
 }
-
-getLocation()
