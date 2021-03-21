@@ -12,12 +12,31 @@
 
     <main>
       <form id="userInput">
+        <label for="location">Where are you heading?</label>
         <div class="location">
           <input
             id="location"
             placeholder="destination"
             required
             size="30"
+          >
+        </div>
+        <div class="arrivalDates">
+          <label for="arrival">When will you arrive?</label>
+          <input
+            id="arrival"
+            input type="date"
+            placeholder="arrival date"
+            required
+          >
+        </div>
+        <div class="departureDates">
+          <label for="departure">When will you depart?</label>
+          <input
+            id="departure"
+            input type="date"
+            placeholder="departure date"
+            required
           >
         </div>
         <div class="button">

@@ -3,8 +3,8 @@ import "./styles/resets.scss";
 import "./styles/base.scss";
 
 // Import functions
-import { getData } from "./js/app"
+import { handleSubmit } from "./js/formHandler"
 
 
 // Event Listeners
-document.getElementById("userInput").addEventListener('submit', getData)
+document.getElementById("userInput").addEventListener('submit', handleSubmit)

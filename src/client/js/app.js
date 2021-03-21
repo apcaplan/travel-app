@@ -1,12 +1,7 @@
 // gather data function
-export function getData(event) {
-  event.preventDefault()
-  // get user input values
-  const city = document.getElementById("location").value
-  console.log(city)
+function getData(city) {
   // send data in POST request
   postData("http://localhost:8081/location", {city: city})
-    .then(console.log("hello"))
     .then(updateUI())
     .then(document.getElementById("userInput").reset())
     .catch((error) => console.error(error))
@@ -32,17 +27,11 @@ const postData = async (url="", data = {}) => {
   }
 }
 
-const banana = function () {
-  console.log("hooray!")
-}
-
 // Update UI
 const updateUI = async () => {
-  console.log("hello from updateUI")
   const getAll = await fetch ("http://localhost:8081/all")
   try {
     const data = await getAll.json()
-    console.log(data)
     // update on screen
     document.getElementById("city").innerHTML=`Here's the city: ${data.city}`
     document.getElementById("country").innerHTML=`Here's the country: ${data.country}`
@@ -52,3 +41,5 @@ const updateUI = async () => {
     console.log("error: ", error)
   }
 }
+
+export { getData }
