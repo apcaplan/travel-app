@@ -62,9 +62,14 @@ app.post("/location", getLocation)
 async function getLocation(req, res) {
   console.log("getting location data...")
   console.log("city: ", req.body.city)
+  console.log("body: ", req.body)
   const location = await fetch (requestUrl(req.body.city))
   const geonamesData = await location.json()
   try {
+    projectData.arrival = req.body.arrival
+    projectData.departure = req.body.departure
+    projectData.length = req.body.length
+    projectData.duration = req.body.duration
     projectData.lat = geonamesData.geonames[0].lat * 1
     projectData.long = geonamesData.geonames[0].lng * 1
     projectData.city = geonamesData.geonames[0].name

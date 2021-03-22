@@ -8,7 +8,6 @@ export function countdown (date) {
   const mspd = 1000 * 60 * 60 * 24
   // caluclate difference
   const difference = Math.round((arr - today) / mspd)
-  console.log(difference)
 
   if (difference === 0) {
     return "Today!"

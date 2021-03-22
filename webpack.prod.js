@@ -11,8 +11,21 @@ module.exports = {
       test: "/.js$/",
       exclude: /node_modules/,
       loader: "babel-loader",
-    }]
+      },
+      {
+        test: /\.(png|svg|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].[ext]",
+              outputPath: "images/"
+            }
+          }
+        ]
+      }]
   },
+
   output: {
   libraryTarget: "var",
   library: "Client",

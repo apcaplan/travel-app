@@ -1,7 +1,8 @@
 import { getData } from './app'
 import { countdown } from './countdown'
+import { duration } from './duration'
 
-function handleSubmit (event) {
+async function handleSubmit (event) {
   event.preventDefault()
 
   console.log("::: Form Submitted :::")
@@ -11,9 +12,10 @@ function handleSubmit (event) {
     const departureDate = document.getElementById("departure").value
     const arrivalDate = document.getElementById("arrival").value
 
-    countdown(arrivalDate)
-    console.log(countdown(arrivalDate))
-    getData(city)
+    const tripLength = await countdown(arrivalDate)
+    const tripDuration = await duration(arrivalDate, departureDate)
+
+    getData(city, arrivalDate, departureDate, tripLength, tripDuration)
 }
 
 export { handleSubmit }
