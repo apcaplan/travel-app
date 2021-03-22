@@ -37,6 +37,10 @@ const updateUI = async () => {
     document.getElementById("country").innerHTML=`Here's the country: ${data.country}`
     document.getElementById("lat").innerHTML=`Here's the latitude: ${data.lat}`
     document.getElementById("long").innerHTML=`Here's the longitude: ${data.long}`
+    document.getElementById("temp").innerHTML=`Here's the current temperature: ${data.temp}\xB0F`
+    document.getElementById("high").innerHTML=`Here's the high temperature for the day: ${data.high}\xB0F`
+    document.getElementById("desc").innerHTML=`Here are the weather conditions: ${data.desc}`
+    console.log(data)
   } catch (error) {
     console.log("error: ", error)
   }

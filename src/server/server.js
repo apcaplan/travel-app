@@ -64,13 +64,41 @@ async function getLocation(req, res) {
   const location = await fetch (requestUrl(req.body.city))
   const geonamesData = await location.json()
   try {
-    // console.log(geonamesData)
-    projectData.lat = geonamesData.geonames[0].lat
-    projectData.long = geonamesData.geonames[0].lng
+    projectData.lat = geonamesData.geonames[0].lat * 1
+    projectData.long = geonamesData.geonames[0].lng * 1
     projectData.city = geonamesData.geonames[0].name
     projectData.country = geonamesData.geonames[0].countryName
   } catch (error) {
     console.log("error ", error)
   }
   console.log(projectData)
+  getWeather(projectData)
+}
+
+
+
+async function getWeather(data) {
+  console.log("getting weather data...")
+
+  // Helper function to generate url for weatherbit search request
+  const weatherbitURL = "https://api.weatherbit.io/v2.0/forecast/daily?"
+  const weatherbitKey = process.env.WEATHERBIT_KEY
+  let weatherUrl = weatherbitURL + `&lat=${data.lat}&lon=${data.long}&units=I&key=` + weatherbitKey
+
+  console.log(weatherUrl)
+
+  const weather = await fetch (weatherUrl)
+  try {
+    const weatherData = await weather.json()
+    // console.log(weatherData)
+    const weather1 = weatherData.data[0]
+    // console.log(weather1)
+    projectData.high = weatherData.data[0].high_temp
+    projectData.desc = weatherData.data[0].weather.description
+    projectData.temp = weatherData.data[0].temp
+    console.log(`high: ${projectData.high}...current temp: ${projectData.temp}...description: ${projectData.desc}`)
+    console.log(projectData)
+  } catch (error) {
+    console.log("error ", error)
+  }
 }

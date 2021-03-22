@@ -14,7 +14,6 @@ function handleSubmit (event) {
     countdown(arrivalDate)
     console.log(countdown(arrivalDate))
     getData(city)
-
 }
 
 export { handleSubmit }
