@@ -44,6 +44,7 @@ app.get("/all", getAll);
 
 function getAll(req, res) {
   console.log("GET request received");
+  console.log("here's pd!,", projectData)
   res.send(projectData);
 }
 
@@ -71,8 +72,9 @@ async function getLocation(req, res) {
   } catch (error) {
     console.log("error ", error)
   }
+  const weather = await getWeather(projectData)
+  const image = await getPic(projectData)
   console.log(projectData)
-  getWeather(projectData)
 }
 
 
@@ -85,8 +87,6 @@ async function getWeather(data) {
   const weatherbitKey = process.env.WEATHERBIT_KEY
   let weatherUrl = weatherbitURL + `&lat=${data.lat}&lon=${data.long}&units=I&key=` + weatherbitKey
 
-  console.log(weatherUrl)
-
   const weather = await fetch (weatherUrl)
   try {
     const weatherData = await weather.json()
@@ -96,8 +96,25 @@ async function getWeather(data) {
     projectData.high = weatherData.data[0].high_temp
     projectData.desc = weatherData.data[0].weather.description
     projectData.temp = weatherData.data[0].temp
-    console.log(`high: ${projectData.high}...current temp: ${projectData.temp}...description: ${projectData.desc}`)
-    console.log(projectData)
+
+  } catch (error) {
+    console.log("error ", error)
+  }
+}
+
+async function getPic(data) {
+  console.log("getting picture data...")
+
+  const pixabayUrl="https://pixabay.com/api/?key="
+  const pixabayKey=process.env.PIXABAY_KEY
+  const pixabayRequestUrl=pixabayUrl + pixabayKey + `&q=${data.city}&image_type=photo`
+
+  const pic = await fetch (pixabayRequestUrl)
+  try {
+    const picture = await pic.json()
+    // console.log(picture.hits[0])
+    projectData.pic=picture.hits[0].webformatURL
+    // console.log(projectData)
   } catch (error) {
     console.log("error ", error)
   }

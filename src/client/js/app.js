@@ -40,6 +40,7 @@ const updateUI = async () => {
     document.getElementById("temp").innerHTML=`Here's the current temperature: ${data.temp}\xB0F`
     document.getElementById("high").innerHTML=`Here's the high temperature for the day: ${data.high}\xB0F`
     document.getElementById("desc").innerHTML=`Here are the weather conditions: ${data.desc}`
+    document.getElementById("image").innerHTML=`Here's the pretty picture: <img src="${data.pic}">`
     console.log(data)
   } catch (error) {
     console.log("error: ", error)
