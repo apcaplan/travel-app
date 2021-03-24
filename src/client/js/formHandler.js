@@ -1,4 +1,4 @@
-import { getData } from './app'
+import { postData, updateUI } from './app'
 import { countdown } from './countdown'
 import { duration } from './duration'
 
@@ -12,10 +12,18 @@ async function handleSubmit (event) {
     const departureDate = document.getElementById("departure").value
     const arrivalDate = document.getElementById("arrival").value
 
+    // Calculate days until arrival and trip duration
     const tripLength = await countdown(arrivalDate)
     const tripDuration = await duration(arrivalDate, departureDate)
 
-    getData(city, arrivalDate, departureDate, tripLength, tripDuration)
+    // Collect data
+    const data = {city: city, arrival: arrivalDate, departure: departureDate, length: tripLength, duration: tripDuration}
+
+    // POST data
+    postData("http://localhost:8081/location", data)
+      .then(updateUI())
+      .catch(error => console.error(error))
+
 }
 
 export { handleSubmit }

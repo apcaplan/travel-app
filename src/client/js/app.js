@@ -1,13 +1,18 @@
-import { countdown } from './countdown'
 
 // gather data function
-function getData(city, arrival, departure, length, duration) {
-  // send data in POST request
-  postData("http://localhost:8081/location", {city: city, arrival: arrival, departure: departure, length: length, duration: duration} )
-    .then(updateUI())
-    .then(document.getElementById("userInput").reset())
-    .catch((error) => console.error(error))
-}
+// async function getData(city, arrival, departure, length, duration) {
+//   // send data in POST request
+//     await postData( {city: city, arrival: arrival, departure: departure, length: length, duration: duration} )
+//     await updateUI()
+//     try {
+//       console.log("hello")
+//       // const update = await updateUI()
+//       // .then(document.getElementById("userInput").reset())
+//     } catch (error) {
+//       console.error(error)
+//     }
+// }
+
 
 // Function to POST data
 const postData = async (url="", data = {}) => {
@@ -17,19 +22,14 @@ const postData = async (url="", data = {}) => {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      city: data.city,
-      arrival: data.arrival,
-      departure: data.departure,
-      length: data.length,
-      duration: data.duration
-    })
+    body: JSON.stringify(data)
   })
   try {
+    console.log("hello from try in postData")
     const newData = await req.json()
     return newData
   } catch (error) {
-    console.error(error)
+    console.error("POST error: ", error)
   }
 }
 
@@ -54,8 +54,8 @@ const updateUI = async () => {
     document.getElementById("length").innerHTML=`Countdown to trip start: ${data.length}`
     document.getElementById("length").innerHTML=`Here's the trip length: ${data.duration}`
   } catch (error) {
-    console.log("error: ", error)
+    console.log("updateUI error: ", error)
   }
 }
 
-export { getData }
+export { postData, updateUI }

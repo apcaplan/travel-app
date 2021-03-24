@@ -112,14 +112,17 @@ async function getPic(data) {
 
   const pixabayUrl="https://pixabay.com/api/?key="
   const pixabayKey=process.env.PIXABAY_KEY
-  const pixabayRequestUrl=pixabayUrl + pixabayKey + `&q=${data.city}&image_type=photo`
+  const pixabayRequestUrl=pixabayUrl + pixabayKey + `&q=${data.city} ${data.country}&image_type=photo`
 
   const pic = await fetch (pixabayRequestUrl)
   try {
     const picture = await pic.json()
-    // console.log(picture.hits[0])
-    projectData.pic=picture.hits[0].webformatURL
-    // console.log(projectData)
+    console.log(picture.totalHits)
+    if (picture.totalHits >= 1) {
+      projectData.pic=picture.hits[0].webformatURL
+    } else {
+      projectData.pic = ''
+    }
   } catch (error) {
     console.log("error ", error)
   }
