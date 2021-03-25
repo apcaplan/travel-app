@@ -1,4 +1,4 @@
-import { postData, updateUI } from './app'
+import { postData } from './app'
 import { countdown } from './countdown'
 import { duration } from './duration'
 
@@ -20,10 +20,7 @@ async function handleSubmit (event) {
     const data = {city: city, arrival: arrivalDate, departure: departureDate, length: tripLength, duration: tripDuration}
 
     // POST data
-    postData("http://localhost:8081/location", data)
-      .then(updateUI())
-      .catch(error => console.error(error))
-
+    postData(data)
 }
 
 export { handleSubmit }

@@ -44,7 +44,7 @@ app.get("/all", getAll);
 
 function getAll(req, res) {
   console.log("GET request received");
-  console.log("here's pd!,", projectData)
+  console.log("here's pd from getAll,", projectData)
   res.send(projectData);
 }
 
@@ -79,7 +79,9 @@ async function getLocation(req, res) {
   }
   const weather = await getWeather(projectData)
   const image = await getPic(projectData)
-  console.log(projectData)
+  console.log("from getLocation ", projectData)
+  // send all data
+  res.send(projectData)
 }
 
 

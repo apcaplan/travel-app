@@ -1,22 +1,7 @@
 
-// gather data function
-// async function getData(city, arrival, departure, length, duration) {
-//   // send data in POST request
-//     await postData( {city: city, arrival: arrival, departure: departure, length: length, duration: duration} )
-//     await updateUI()
-//     try {
-//       console.log("hello")
-//       // const update = await updateUI()
-//       // .then(document.getElementById("userInput").reset())
-//     } catch (error) {
-//       console.error(error)
-//     }
-// }
-
-
 // Function to POST data
-const postData = async (url="", data = {}) => {
-  const req = await fetch(url, {
+const postData = async (data) => {
+  const req = await fetch("http://localhost:8081/location", {
     method: "POST",
     credentials: "same-origin",
     headers: {
@@ -25,22 +10,16 @@ const postData = async (url="", data = {}) => {
     body: JSON.stringify(data)
   })
   try {
-    console.log("hello from try in postData")
     const newData = await req.json()
-    return newData
+    updateUI(newData)
+    // return newData
   } catch (error) {
     console.error("POST error: ", error)
   }
 }
 
 // Update UI
-const updateUI = async () => {
-  const getAll = await fetch ("http://localhost:8081/all")
-  try {
-    const data = await getAll.json()
-    // update on screen
-    console.log("data: ", data)
-    console.log('arrival;', data.arrival)
+const updateUI = data => {
     document.getElementById("arr").innerHTML=`You will arrive on: ${data.arrival}`
     document.getElementById("dep").innerHTML=`You will leave on: ${data.departure}`
     document.getElementById("city").innerHTML=`Here's the city: ${data.city}`
@@ -53,9 +32,6 @@ const updateUI = async () => {
     document.getElementById("image").innerHTML=`Here's the pretty picture: <img src="${data.pic}">`
     document.getElementById("length").innerHTML=`Countdown to trip start: ${data.length}`
     document.getElementById("length").innerHTML=`Here's the trip length: ${data.duration}`
-  } catch (error) {
-    console.log("updateUI error: ", error)
-  }
 }
 
-export { postData, updateUI }
+export { postData }
