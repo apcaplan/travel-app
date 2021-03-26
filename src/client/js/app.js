@@ -1,3 +1,4 @@
+let current = {}
 
 // Function to POST data
 const postData = async (data) => {
@@ -12,6 +13,8 @@ const postData = async (data) => {
   try {
     const newData = await req.json()
     updateUI(newData)
+    current = newData
+    console.log("current= ", current)
     // return newData
   } catch (error) {
     console.error("POST error: ", error)
@@ -34,4 +37,39 @@ const updateUI = data => {
     document.getElementById("length").innerHTML=`Here's the trip length: ${data.duration}`
 }
 
-export { postData }
+function handleSave () {
+  saveTrip(current)
+  console.log("saving!")
+}
+
+// save trip
+const saveTrip = async (data) => {
+  const req = await fetch("http://localhost:8081/save", {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  console.log("saving...")
+}
+
+// get all trips
+const listTrips = async (data) => {
+  const response = await fetch("http://localhost:8081/all", {
+    method: "GET",
+    credentials: "same-origin",
+    // headers: {
+    //   "Content-Type": "application/json"
+    // }
+  })
+  try {
+    const trips = await response.json()
+    console.log(trips)
+  } catch (error) {
+    console.error("POST error: ", error)
+  }
+}
+
+export { postData, handleSave, listTrips }

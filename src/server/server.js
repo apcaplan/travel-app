@@ -8,6 +8,9 @@ const fetch = require("node-fetch");
 // Create empty object as an endpoint for all routes
 let projectData = {};
 
+// Create empty array to store saved trips
+let trips = []
+
 // Create instance of app
 const app = express();
 
@@ -44,8 +47,7 @@ app.get("/all", getAll);
 
 function getAll(req, res) {
   console.log("GET request received");
-  console.log("here's pd from getAll,", projectData)
-  res.send(projectData);
+  res.send(trips);
 }
 
 // Helper function to generate url for Geonames search request
@@ -97,7 +99,6 @@ async function getWeather(data) {
   const weather = await fetch (weatherUrl)
   try {
     const weatherData = await weather.json()
-    // console.log(weatherData)
     const weather1 = weatherData.data[0]
     // console.log(weather1)
     projectData.high = weatherData.data[0].high_temp
@@ -112,6 +113,7 @@ async function getWeather(data) {
 async function getPic(data) {
   console.log("getting picture data...")
 
+    // Helper function to generate url for pixabay search request
   const pixabayUrl="https://pixabay.com/api/?key="
   const pixabayKey=process.env.PIXABAY_KEY
   const pixabayRequestUrl=pixabayUrl + pixabayKey + `&q=${data.city} ${data.country}&image_type=photo`
@@ -128,4 +130,12 @@ async function getPic(data) {
   } catch (error) {
     console.log("error ", error)
   }
+}
+
+app.post("/save", saveTrip)
+
+function saveTrip (data) {
+  console.log("saving...")
+  trips.push(data.body)
+  console.log("trips: ", trips)
 }

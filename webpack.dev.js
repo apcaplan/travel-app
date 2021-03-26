@@ -37,8 +37,8 @@ module.exports = {
     ],
   },
   output: {
-  libraryTarget: "var",
-  library: "Client",
+    libraryTarget: "var",
+    library: "Client",
   },
   plugins: [
     new HtmlWebPackPlugin({

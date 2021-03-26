@@ -13,6 +13,14 @@ module.exports = {
       loader: "babel-loader",
       },
       {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.(png|svg|jpe?g|gif)$/i,
         use: [
           {
@@ -27,8 +35,8 @@ module.exports = {
   },
 
   output: {
-  libraryTarget: "var",
-  library: "Client",
+    libraryTarget: "var",
+    library: "Client",
   },
   plugins: [
     new HtmlWebPackPlugin({
