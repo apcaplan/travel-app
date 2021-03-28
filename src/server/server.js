@@ -47,6 +47,9 @@ app.get("/all", getAll);
 
 function getAll(req, res) {
   console.log("GET request received");
+  trips.forEach((trip, index) => {
+    trip.id = index + 1
+  })
   res.send(trips);
 }
 

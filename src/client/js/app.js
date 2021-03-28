@@ -60,16 +60,74 @@ const listTrips = async (data) => {
   const response = await fetch("http://localhost:8081/all", {
     method: "GET",
     credentials: "same-origin",
-    // headers: {
-    //   "Content-Type": "application/json"
-    // }
   })
   try {
     const trips = await response.json()
-    console.log(trips)
+    sorting(trips)
   } catch (error) {
     console.error("POST error: ", error)
   }
+}
+
+
+function sorting (data) {
+  let expired = []
+  let upcoming = []
+  const today = new Date().setHours(0, 0, 0, 0)
+  const order = data.sort(function(a,b) {
+    return Date.parse(a.arrival) - Date.parse(b.arrival)
+  })
+  order.forEach(date => {
+    if(Date.parse(date.arrival) < today){
+      expired.push(date)
+    } else {
+      upcoming.push(date)
+    }
+  })
+  console.log("expired: ", expired)
+  console.log("upcoming: ", upcoming)
+
+  if (upcoming.length) {
+    // remove hide//show
+  // upcoming.map(trip => {
+  //     travelList.push(`${trip.city} on ${trip.arrival}`)
+  //   })
+    // document.getElementById("newTrip").innerHTML= travelList
+    upcoming.forEach(trip => {
+        document.getElementById("newTrip").appendChild(createTrip(trip))
+      })
+  }
+  if (expired.length){
+    expired.sort(function(a,b) {
+      return Date.parse(b.arrival) - Date.parse(a.arrival)
+    })
+  //   expired.map(trip => {
+  //     expiredList.push(`${trip.city} on ${trip.arrival}`)
+  //   })
+  //   document.getElementById("oldTrip").innerHTML=expiredList
+  // }
+  expired.forEach(trip => {
+      document.getElementById("oldTrip").appendChild(createTrip(trip))
+    })
+}
+}
+
+const createTrip = (item) => {
+  const wrapper = document.createElement('div')
+  wrapper.classList.add(`id_${item.id}`)
+  const img = document.createElement('img')
+  img.src = item.pic
+  const city = document.createElement('h3')
+  city.innerText = item.city
+  const arrival = document.createElement('p')
+  arrival.innerText = item.arrival
+  const button = document.createElement('button')
+  button.innerText = 'delete'
+  wrapper.appendChild(img)
+  wrapper.appendChild(city)
+  wrapper.appendChild(arrival)
+  wrapper.appendChild(button)
+  return wrapper
 }
 
 export { postData, handleSave, listTrips }
