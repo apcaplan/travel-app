@@ -64,7 +64,7 @@ const listTrips = async (data) => {
     tripClear()
     sorting(trips)
   } catch (error) {
-    console.error("POST error: ", error)
+    console.error("get error: ", error)
   }
 }
 
@@ -118,14 +118,34 @@ const createTrip = (item) => {
   city.innerText = item.city
   const arrival = document.createElement('p')
   arrival.innerText = item.arrival
-  const button = document.createElement('button')
-  button.innerText = 'delete'
+  const buttonView = document.createElement('button')
+  buttonView.innerText = 'View'
+  const buttonDelete = document.createElement('button')
+  buttonDelete.innerText = 'delete'
   wrapper.appendChild(img)
   wrapper.appendChild(city)
   wrapper.appendChild(arrival)
-  wrapper.appendChild(button)
-  button.addEventListener('click', () => destroyTrip(item.id))
+  wrapper.appendChild(buttonView)
+  wrapper.appendChild(buttonDelete)
+  buttonView.addEventListener('click', () => viewTrip(item.id))
+  buttonDelete.addEventListener('click', () => destroyTrip(item.id))
   return wrapper
+}
+
+// view trip function
+const viewTrip = async (id) => {
+    const response = await fetch(`http://localhost:8081/view/${id}`, {
+      method: "GET",
+      credentials: "same-origin",
+    })
+    try {
+      const trip = await response.json()
+      console.log(trip)
+      tripClear()
+      createTrip(trip)
+    } catch (error) {
+      console.error("get error: ", error)
+    }
 }
 
 // delete function

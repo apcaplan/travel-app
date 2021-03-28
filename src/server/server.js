@@ -53,6 +53,13 @@ function getAll(req, res) {
   res.send(trips);
 }
 
+app.get("/view/:id", getTrip)
+
+function getTrip(req, res) {
+  console.log("GET request received")
+  res.send(trips[req.params.id - 1])
+}
+
 // Helper function to generate url for Geonames search request
 const geonamesURL = "http://api.geonames.org/searchJSON?q="
 const username = process.env.GEONAMES_USER
@@ -147,7 +154,7 @@ app.delete("/delete/:id", destroyTrip)
 
 function destroyTrip (id) {
   console.log("DELETE request received")
-  trips.splice(id, 1)
+  trips.splice(id - 1, 1)
 }
 
 // convert date
