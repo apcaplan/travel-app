@@ -18,6 +18,6 @@ export function countdown (date) {
   } else if (difference === 1) {
     return "Tomorrow!"
   } else {
-    return `${difference} days`
+    return `in ${difference} days`
   }
 }

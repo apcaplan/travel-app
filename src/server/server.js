@@ -71,8 +71,8 @@ async function getLocation(req, res) {
   const location = await fetch (requestUrl(req.body.city))
   const geonamesData = await location.json()
   try {
-    projectData.arrival = req.body.arrival
-    projectData.departure = req.body.departure
+    projectData.arrival = convert(req.body.arrival)
+    projectData.departure = convert(req.body.departure)
     projectData.length = req.body.length
     projectData.duration = req.body.duration
     projectData.lat = geonamesData.geonames[0].lat * 1
@@ -148,4 +148,12 @@ app.delete("/delete/:id", destroyTrip)
 function destroyTrip (id) {
   console.log("DELETE request received")
   trips.splice(id, 1)
+}
+
+// convert date
+const months = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
+function convert (date) {
+  const split = (date.split('-'))
+  return `${months[parseInt(split[1]) - 1]} ${split[2]}, ${split[0]}`
 }

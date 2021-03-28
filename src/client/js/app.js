@@ -23,18 +23,16 @@ const postData = async (data) => {
 
 // Update UI
 const updateUI = data => {
-    document.getElementById("arr").innerHTML=`You will arrive on: ${data.arrival}`
-    document.getElementById("dep").innerHTML=`You will leave on: ${data.departure}`
-    document.getElementById("city").innerHTML=`Here's the city: ${data.city}`
-    document.getElementById("country").innerHTML=`Here's the country: ${data.country}`
-    document.getElementById("lat").innerHTML=`Here's the latitude: ${data.lat}`
-    document.getElementById("long").innerHTML=`Here's the longitude: ${data.long}`
-    document.getElementById("temp").innerHTML=`Here's the current temperature: ${data.temp}\xB0F`
-    document.getElementById("high").innerHTML=`Here's the high temperature for the day: ${data.high}\xB0F`
-    document.getElementById("desc").innerHTML=`Here are the weather conditions: ${data.desc}`
-    document.getElementById("image").innerHTML=`Here's the pretty picture: <img src="${data.pic}">`
-    document.getElementById("length").innerHTML=`Countdown to trip start: ${data.length}`
-    document.getElementById("length").innerHTML=`Here's the trip length: ${data.duration}`
+    document.getElementById("arr").innerHTML=`Arrival date: ${data.arrival}`
+    document.getElementById("dep").innerHTML=`Return date: ${data.departure}`
+    document.getElementById("city").innerHTML=`Destination city: ${data.city}`
+    document.getElementById("country").innerHTML=`Destination country: ${data.country}`
+    document.getElementById("temp").innerHTML=`Current temperature: ${data.temp}\xB0F`
+    document.getElementById("high").innerHTML=`High temperature for the day: ${data.high}\xB0F`
+    document.getElementById("desc").innerHTML=`Weather conditions: ${data.desc}`
+    document.getElementById("image").innerHTML=`<img src="${data.pic}">`
+    document.getElementById("length").innerHTML=`Traveling: ${data.length}`
+    document.getElementById("duration").innerHTML=`Trip length: ${data.duration}`
 }
 
 function handleSave () {
@@ -63,14 +61,22 @@ const listTrips = async (data) => {
   })
   try {
     const trips = await response.json()
+    tripClear()
     sorting(trips)
   } catch (error) {
     console.error("POST error: ", error)
   }
 }
 
+function tripClear () {
+  // document.getElementById("newTrip").replaceChildren()
+  // document.getElementById("oldTrip").replaceChildren()
+  document.getElementById("newTrip").querySelectorAll('*').forEach(node => node.remove())
+  document.getElementById("oldTrip").querySelectorAll('*').forEach(node => node.remove())
+}
 
 function sorting (data) {
+
   let expired = []
   let upcoming = []
   const today = new Date().setHours(0, 0, 0, 0)
@@ -122,6 +128,7 @@ const createTrip = (item) => {
   return wrapper
 }
 
+// delete function
 const destroyTrip = (id) => {
   const response = fetch(`http://localhost:8081/delete/${id}`, {
       method: "DELETE",
