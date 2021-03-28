@@ -140,5 +140,12 @@ app.post("/save", saveTrip)
 function saveTrip (data) {
   console.log("saving...")
   trips.push(data.body)
-  console.log("trips: ", trips)
+}
+
+// delete
+app.delete("/delete/:id", destroyTrip)
+
+function destroyTrip (id) {
+  console.log("DELETE request received")
+  trips.splice(id, 1)
 }

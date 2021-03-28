@@ -88,11 +88,6 @@ function sorting (data) {
   console.log("upcoming: ", upcoming)
 
   if (upcoming.length) {
-    // remove hide//show
-  // upcoming.map(trip => {
-  //     travelList.push(`${trip.city} on ${trip.arrival}`)
-  //   })
-    // document.getElementById("newTrip").innerHTML= travelList
     upcoming.forEach(trip => {
         document.getElementById("newTrip").appendChild(createTrip(trip))
       })
@@ -101,12 +96,8 @@ function sorting (data) {
     expired.sort(function(a,b) {
       return Date.parse(b.arrival) - Date.parse(a.arrival)
     })
-  //   expired.map(trip => {
-  //     expiredList.push(`${trip.city} on ${trip.arrival}`)
-  //   })
-  //   document.getElementById("oldTrip").innerHTML=expiredList
-  // }
-  expired.forEach(trip => {
+
+    expired.forEach(trip => {
       document.getElementById("oldTrip").appendChild(createTrip(trip))
     })
 }
@@ -127,7 +118,19 @@ const createTrip = (item) => {
   wrapper.appendChild(city)
   wrapper.appendChild(arrival)
   wrapper.appendChild(button)
+  button.addEventListener('click', () => destroyTrip(item.id))
   return wrapper
 }
+
+const destroyTrip = (id) => {
+  const response = fetch(`http://localhost:8081/delete/${id}`, {
+      method: "DELETE",
+      credentials: "same-origin"
+})
+  .then(console.log("removed"))
+  .then(listTrips())
+  .catch(error => console.error(error))
+}
+
 
 export { postData, handleSave, listTrips }
