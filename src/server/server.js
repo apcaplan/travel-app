@@ -164,3 +164,5 @@ function convert(date) {
   const split = date.split("-");
   return `${months[parseInt(split[1]) - 1]} ${split[2]}, ${split[0]}`;
 }
+
+module.exports = app;
