@@ -42,7 +42,7 @@ app.get("/", function (req, res) {
 dotenv.config();
 
 // Define route methods
-// GET
+// GET all trips
 app.get("/all", getAll);
 
 function getAll(req, res) {
@@ -53,6 +53,7 @@ function getAll(req, res) {
   res.send(trips);
 }
 
+// View individual trip
 app.get("/view/:id", getTrip)
 
 function getTrip(req, res) {
@@ -96,8 +97,7 @@ async function getLocation(req, res) {
   res.send(projectData)
 }
 
-
-
+// Fetch weather data from Weatherbit API
 async function getWeather(data) {
   console.log("getting weather data...")
 
@@ -120,6 +120,7 @@ async function getWeather(data) {
   }
 }
 
+// Fetch picture from Pixabay API
 async function getPic(data) {
   console.log("getting picture data...")
 
@@ -142,6 +143,7 @@ async function getPic(data) {
   }
 }
 
+// POST route to save trip
 app.post("/save", saveTrip)
 
 function saveTrip (data) {
@@ -149,7 +151,7 @@ function saveTrip (data) {
   trips.push(data.body)
 }
 
-// delete
+// DELETE trip
 app.delete("/delete/:id", destroyTrip)
 
 function destroyTrip (id) {
@@ -157,7 +159,7 @@ function destroyTrip (id) {
   trips.splice(id - 1, 1)
 }
 
-// convert date
+// convert date function
 const months = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"];
 function convert (date) {

@@ -11,12 +11,13 @@
     </header>
 
     <main>
+      <div class="wrapper">
       <form id="userInput">
         <label for="location">Where are you heading?</label>
         <div class="location">
           <input
             id="location"
-            placeholder="destination"
+            placeholder="Enter destination"
             required
             size="30"
           >
@@ -43,29 +44,40 @@
           <button id="enterData" type="submit">Submit</button>
        </div>
       </form>
-      <div id="image"></div>
-      <div id="city"></div>
-      <div id="country"></div>
-      <div id="arr"></div>
-      <div id="dep"></div>
-      <div id="duration"></div>
-      <div id="length"></div>
-      <div id="temp"></div>
-      <div id="high"></div>
-      <div id="desc"></div>
-  
-      <button id="saveTrip">Save</button>
-      <button id="list">See all trips</button>
+      <div id="searchResult" class="searchResult hidden">
+        <div id="image"></div>
+        <div class="container">
+          <div id="city"></div>
+          <div id="country"></div>
+          <div id="arr"></div>
+          <div id="dep"></div>
+          <div id="duration"></div>
+          <div id="length"></div>
+          <div id="temp"></div>
+          <div id="high"></div>
+          <div id="desc"></div>
+        </div>
+      </div>
 
-      <div class="upcoming">
-        <h2>Your Upcoming Trips</h2>
+      <div id="tripView"></div>
+
+      <button id="saveTrip" class="hide">Save</button>
+      <button id="new" class="hide">New trip</button>
+      <button id="list">See all trips</button>
+      <p class="error hide">No saved trips. Enter your next destination above!</p>
+
+      <div class="listWrapper hide">
+      <div class="upcoming hide">
+        <h2 class="title">Your Upcoming Trips</h2>
         <div id="newTrip"></div>
       </div>
 
-      <div class="expired">
-        <h2>Your Past Trips</h2>
+      <div class="expired hide">
+        <h2 class="title">Your Past Trips</h2>
         <div id="oldTrip"></div>
       </div>
+    </div>
+    </div>
     </main>
 
     <footer></footer>

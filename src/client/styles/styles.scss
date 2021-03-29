@@ -1,0 +1,169 @@
+body {
+  background: url("../media/airplane.jpg") no-repeat center;
+  display: flex;
+  flex-direction: column;
+  font-size: 112%;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+button {
+  border-radius: 10px;
+  font-size: 80%;
+  padding: .3em;
+  margin: .4em auto;
+}
+
+header {
+  text-align: center;
+  font-size: 2em;
+}
+
+img {
+  display: flex;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
+
+}
+
+input {
+  font-size: .8em;
+}
+
+#image {
+  height: 35vh;
+  margin: .5em 0;
+  object-fit: contain;
+}
+
+#newTrip,
+#oldTrip {
+  height: 100%;
+  justify-content: center;
+  overflow: auto;
+}
+
+#list,
+#new,
+#saveTrip {
+  font-size: 140%;
+}
+
+#searchResult {
+  align-content: center;
+  background-color: #fff;
+  border-radius: 30px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+  height: 80vh;
+  justify-content: center;
+  margin-bottom: .5em;
+  padding: 1rem;
+  width: 70vw;
+}
+
+#userInput {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 2em;
+  line-height: 1.8em;
+  width: 100%;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonView {
+  margin-left: 1em;
+}
+
+.buttonDelete,
+.buttonView {
+  font-size: 100%;
+  margin: 0 1em;
+  margin-bottom: 2em;
+}
+
+.container {
+  font-size: 140%;
+  margin: 0 auto;
+}
+
+.error {
+  color: red;
+  font-size: 2em;
+  font-weight: 500;
+}
+
+.expired {
+  margin-bottom: 2em;
+  margin-top: 7em;
+}
+
+.hide {
+  display: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.expired, .upcoming {
+  height: 50vh;
+}
+
+.expired h2, .upcoming h2 {
+  text-align: center;
+}
+
+.listWrapper {
+  align-content: center;
+  background-color: none;
+  border-radius: 30px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.4);
+  height: 85vh;
+  justify-content: center;
+  margin-bottom: .5em;
+  overflow: auto;
+  padding: 1rem;
+  width: 70vw;
+}
+
+.searchResult {
+  display: grid;
+  grid-template-rows: 2;
+}
+
+.title {
+  font-size: 220%;
+}
+
+.tripArrival {
+  text-align: center;
+}
+
+.tripArrival, .tripCity {
+  line-height: .5em;
+}
+
+.tripPic {
+  height: 35vh;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.upcoming {
+  margin-bottom: 6em;
+  margin-top: 2em;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 7em;
+}
