@@ -9,7 +9,7 @@ const fetch = require("node-fetch");
 let projectData = {};
 
 // Create empty array to store saved trips
-let trips = []
+let trips = [];
 
 // Create instance of app
 const app = express();
@@ -48,121 +48,119 @@ app.get("/all", getAll);
 function getAll(req, res) {
   console.log("GET request received");
   trips.forEach((trip, index) => {
-    trip.id = index + 1
-  })
+    trip.id = index + 1;
+  });
   res.send(trips);
 }
 
 // View individual trip
-app.get("/view/:id", getTrip)
+app.get("/view/:id", getTrip);
 
 function getTrip(req, res) {
-  console.log("GET request received")
-  res.send(trips[req.params.id - 1])
+  console.log("GET request received");
+  res.send(trips[req.params.id - 1]);
 }
 
 // Helper function to generate url for Geonames search request
-const geonamesURL = "http://api.geonames.org/searchJSON?q="
-const username = process.env.GEONAMES_USER
+const geonamesURL = "http://api.geonames.org/searchJSON?q=";
+const username = process.env.GEONAMES_USER;
 const requestUrl = function (city, country) {
-  const newUrl = geonamesURL + city + "&maxRows=10" + "&username=" + username
-  return newUrl
-}
+  const newUrl = geonamesURL + city + "&maxRows=10" + "&username=" + username;
+  return newUrl;
+};
 
 // Fetch location data from Geonames API
-app.post("/location", getLocation)
+app.post("/location", getLocation);
 
 async function getLocation(req, res) {
-  console.log("getting location data...")
-  console.log("city: ", req.body.city)
-  console.log("body: ", req.body)
-  const location = await fetch (requestUrl(req.body.city))
-  const geonamesData = await location.json()
+  console.log("getting location data...");
+  console.log("city: ", req.body.city);
+  console.log("body: ", req.body);
+  const location = await fetch(requestUrl(req.body.city));
+  const geonamesData = await location.json();
   try {
-    projectData.arrival = convert(req.body.arrival)
-    projectData.departure = convert(req.body.departure)
-    projectData.length = req.body.length
-    projectData.duration = req.body.duration
-    projectData.lat = geonamesData.geonames[0].lat * 1
-    projectData.long = geonamesData.geonames[0].lng * 1
-    projectData.city = geonamesData.geonames[0].name
-    projectData.country = geonamesData.geonames[0].countryName
+    projectData.arrival = convert(req.body.arrival);
+    projectData.departure = convert(req.body.departure);
+    projectData.length = req.body.length;
+    projectData.duration = req.body.duration;
+    projectData.lat = geonamesData.geonames[0].lat * 1;
+    projectData.long = geonamesData.geonames[0].lng * 1;
+    projectData.city = geonamesData.geonames[0].name;
+    projectData.country = geonamesData.geonames[0].countryName;
   } catch (error) {
-    console.log("error ", error)
+    console.log("error ", error);
   }
-  const weather = await getWeather(projectData)
-  const image = await getPic(projectData)
-  console.log("from getLocation ", projectData)
+  const weather = await getWeather(projectData);
+  const image = await getPic(projectData);
+  console.log("from getLocation ", projectData);
   // send all data
-  res.send(projectData)
+  res.send(projectData);
 }
 
 // Fetch weather data from Weatherbit API
 async function getWeather(data) {
-  console.log("getting weather data...")
+  console.log("getting weather data...");
 
   // Helper function to generate url for weatherbit search request
-  const weatherbitURL = "https://api.weatherbit.io/v2.0/forecast/daily?"
-  const weatherbitKey = process.env.WEATHERBIT_KEY
-  let weatherUrl = weatherbitURL + `&lat=${data.lat}&lon=${data.long}&units=I&key=` + weatherbitKey
+  const weatherbitURL = "https://api.weatherbit.io/v2.0/forecast/daily?";
+  const weatherbitKey = process.env.WEATHERBIT_KEY;
+  let weatherUrl = weatherbitURL + `&lat=${data.lat}&lon=${data.long}&units=I&key=` + weatherbitKey;
 
-  const weather = await fetch (weatherUrl)
+  const weather = await fetch(weatherUrl);
   try {
-    const weatherData = await weather.json()
-    const weather1 = weatherData.data[0]
+    const weatherData = await weather.json();
+    const weather1 = weatherData.data[0];
     // console.log(weather1)
-    projectData.high = weatherData.data[0].high_temp
-    projectData.desc = weatherData.data[0].weather.description
-    projectData.temp = weatherData.data[0].temp
-
+    projectData.high = weatherData.data[0].high_temp;
+    projectData.desc = weatherData.data[0].weather.description;
+    projectData.temp = weatherData.data[0].temp;
   } catch (error) {
-    console.log("error ", error)
+    console.log("error ", error);
   }
 }
 
 // Fetch picture from Pixabay API
 async function getPic(data) {
-  console.log("getting picture data...")
+  console.log("getting picture data...");
 
-    // Helper function to generate url for pixabay search request
-  const pixabayUrl="https://pixabay.com/api/?key="
-  const pixabayKey=process.env.PIXABAY_KEY
-  const pixabayRequestUrl=pixabayUrl + pixabayKey + `&q=${data.city} ${data.country}&image_type=photo`
+  // Helper function to generate url for pixabay search request
+  const pixabayUrl = "https://pixabay.com/api/?key=";
+  const pixabayKey = process.env.PIXABAY_KEY;
+  const pixabayRequestUrl = pixabayUrl + pixabayKey + `&q=${data.city} ${data.country}&image_type=photo`;
 
-  const pic = await fetch (pixabayRequestUrl)
+  const pic = await fetch(pixabayRequestUrl);
   try {
-    const picture = await pic.json()
-    console.log(picture.totalHits)
+    const picture = await pic.json();
+    console.log(picture.totalHits);
     if (picture.totalHits >= 1) {
-      projectData.pic=picture.hits[0].webformatURL
+      projectData.pic = picture.hits[0].webformatURL;
     } else {
-      projectData.pic = ''
+      projectData.pic = "";
     }
   } catch (error) {
-    console.log("error ", error)
+    console.log("error ", error);
   }
 }
 
 // POST route to save trip
-app.post("/save", saveTrip)
+app.post("/save", saveTrip);
 
-function saveTrip (data) {
-  console.log("saving...")
-  trips.push(data.body)
+function saveTrip(data) {
+  console.log("saving...");
+  trips.push(data.body);
 }
 
 // DELETE trip
-app.delete("/delete/:id", destroyTrip)
+app.delete("/delete/:id", destroyTrip);
 
-function destroyTrip (id) {
-  console.log("DELETE request received")
-  trips.splice(id - 1, 1)
+function destroyTrip(id) {
+  console.log("DELETE request received");
+  trips.splice(id - 1, 1);
 }
 
 // convert date function
-const months = ["January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"];
-function convert (date) {
-  const split = (date.split('-'))
-  return `${months[parseInt(split[1]) - 1]} ${split[2]}, ${split[0]}`
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+function convert(date) {
+  const split = date.split("-");
+  return `${months[parseInt(split[1]) - 1]} ${split[2]}, ${split[0]}`;
 }
